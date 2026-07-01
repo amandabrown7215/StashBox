@@ -8,463 +8,271 @@
 <meta name="apple-mobile-web-app-title" content="StashBox">
 <title>StashBox</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
 
-  :root {
-    --ink: #14171f;
-    --ink-soft: #4d5566;
-    --ink-faint: #9aa1b0;
-    --page: #f6f5f3;
-    --surface: #ffffff;
-    --line: #e3e1dd;
-    --accent: #d4793c;
-    --accent-soft: #fbe9da;
-    --tag-bg: #eef1f6;
-    --tag-text: #4d5566;
-    --ok: #5c8a6a;
-    --radius: 14px;
-    --radius-sm: 9px;
-  }
+:root {
+  --ink: #14171f;
+  --ink-soft: #4d5566;
+  --ink-faint: #9aa1b0;
+  --page: #f6f5f3;
+  --surface: #ffffff;
+  --line: #e3e1dd;
+  --accent: #d4793c;
+  --accent-soft: #fbe9da;
+  --tag-bg: #eef1f6;
+  --radius: 14px;
+  --radius-sm: 9px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Inter', sans-serif; background: var(--page); color: var(--ink); min-height: 100vh; max-width: 480px; margin: 0 auto; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+/* ── WELCOME ── */
+.welcome { position: fixed; inset: 0; background: var(--page); z-index: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; }
+.welcome.hidden { display: none; }
+.welcome-mark { width: 56px; height: 56px; border-radius: 16px; background: var(--ink); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; }
+.welcome-mark svg { width: 28px; height: 28px; stroke: var(--accent-soft); }
+.welcome h1 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; margin-bottom: 10px; letter-spacing: -0.4px; }
+.welcome p { font-size: 15px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 28px; }
+.welcome-features { width: 100%; margin-bottom: 28px; text-align: left; }
+.welcome-feature { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+.welcome-feature:last-child { border-bottom: none; }
+.welcome-feature strong { color: var(--ink); font-weight: 600; }
+.welcome-btn { width: 100%; padding: 15px; background: var(--ink); color: white; border: none; border-radius: var(--radius-sm); font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--page);
-    color: var(--ink);
-    min-height: 100vh;
-    max-width: 480px;
-    margin: 0 auto;
-    position: relative;
-  }
+/* ── HEADER ── */
+.header { background: var(--page); padding: 18px 18px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.app-title { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 600; color: var(--ink); letter-spacing: -0.3px; display: flex; align-items: center; gap: 8px; }
+.app-title-mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.app-title-mark svg { width: 14px; height: 14px; stroke: var(--accent-soft); }
+.header-actions { display: flex; gap: 8px; }
+.icon-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--ink-soft); }
+.tabs { display: flex; gap: 4px; }
+.tab-btn { flex: 1; padding: 7px 4px; border: none; background: none; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink-faint); cursor: pointer; border-radius: var(--radius-sm); transition: all 0.15s; }
+.tab-btn.active { background: var(--ink); color: white; }
 
-  /* ---- WELCOME ---- */
-  .welcome-screen {
-    position: fixed; inset: 0;
-    background: var(--page);
-    z-index: 500;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 40px 32px; text-align: center;
-  }
-  .welcome-screen.hidden { display: none; }
-  .welcome-mark {
-    width: 56px; height: 56px;
-    border-radius: 14px;
-    background: var(--ink);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
-  }
-  .welcome-mark svg { width: 28px; height: 28px; stroke: var(--accent-soft); }
-  .welcome-title {
-    font-family: 'Fraunces', serif;
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 10px;
-    letter-spacing: -0.4px;
-  }
-  .welcome-subtitle {
-    font-size: 15px;
-    color: var(--ink-soft);
-    line-height: 1.6;
-    margin-bottom: 28px;
-    max-width: 320px;
-  }
-  .welcome-feature-list { width: 100%; margin-bottom: 28px; text-align: left; }
-  .welcome-feature {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .welcome-feature:last-child { border-bottom: none; }
-  .welcome-feature-icon { font-size: 18px; line-height: 1.3; }
-  .welcome-feature-text { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
-  .welcome-feature-text strong { color: var(--ink); font-weight: 600; }
-  .welcome-btn {
-    width: 100%;
-    padding: 15px;
-    background: var(--ink);
-    color: white;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
+/* ── SEARCH (library only) ── */
+.search-wrap { padding: 10px 18px 12px; border-bottom: 1px solid var(--line); display: none; }
+.search-bar { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--radius-sm); padding: 9px 12px; }
+.search-bar svg { width: 16px; height: 16px; stroke: var(--ink-faint); flex-shrink: 0; }
+.search-bar input { border: none; outline: none; background: none; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); width: 100%; }
+.search-bar input::placeholder { color: var(--ink-faint); }
+.search-clear { background: none; border: none; color: var(--ink-faint); font-size: 17px; cursor: pointer; display: none; }
+.filter-bar { display: flex; gap: 6px; overflow-x: auto; padding: 10px 18px 0; -webkit-overflow-scrolling: touch; scrollbar-width: none; display: none; }
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-chip { padding: 5px 12px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--surface); font-size: 12px; font-weight: 500; color: var(--ink-soft); cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+.filter-chip.active { background: var(--ink); border-color: var(--ink); color: white; }
 
-  /* ---- HEADER ---- */
-  .header {
-    background: var(--page);
-    padding: 18px 18px 0;
-    position: sticky; top: 0; z-index: 100;
-    border-bottom: 1px solid var(--line);
-    padding-bottom: 12px;
-  }
-  .header-top {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .app-title {
-    font-family: 'Fraunces', serif;
-    font-size: 21px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.3px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .app-title-mark {
-    width: 26px; height: 26px;
-    border-radius: 7px;
-    background: var(--ink);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .app-title-mark svg { width: 14px; height: 14px; stroke: var(--accent-soft); }
-  .header-actions { display: flex; gap: 8px; }
-  .icon-btn {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--ink-soft);
-  }
+/* ── MAIN ── */
+.main { padding: 16px 16px calc(96px + env(safe-area-inset-bottom)); }
 
-  .search-bar {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--surface);
-    border: 1.5px solid var(--line);
-    border-radius: var(--radius-sm);
-    padding: 9px 12px;
-    margin-bottom: 12px;
-  }
-  .search-bar svg { width: 16px; height: 16px; stroke: var(--ink-faint); flex-shrink: 0; }
-  .search-bar input {
-    border: none; outline: none; background: none;
-    font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink);
-    width: 100%;
-  }
-  .search-bar input::placeholder { color: var(--ink-faint); }
-  .search-clear {
-    background: none; border: none; color: var(--ink-faint);
-    font-size: 16px; cursor: pointer; padding: 0 2px; display: none;
-  }
+/* ── STATS ── */
+.stats-row { display: flex; gap: 8px; margin-bottom: 16px; }
+.stat-card { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
+.stat-num { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--ink); }
+.stat-label { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
 
-  .filter-bar {
-    display: flex; gap: 6px; overflow-x: auto;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  }
-  .filter-bar::-webkit-scrollbar { display: none; }
-  .filter-chip {
-    padding: 5px 12px; border-radius: 20px;
-    border: 1.5px solid var(--line); background: var(--surface);
-    font-size: 12px; font-weight: 500; color: var(--ink-soft);
-    cursor: pointer; white-space: nowrap; flex-shrink: 0;
-  }
-  .filter-chip.active { background: var(--ink); border-color: var(--ink); color: white; }
+/* ── SCREENSHOT GRID ── */
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.grid-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; cursor: pointer; }
+.grid-item-img-wrap { width: 100%; aspect-ratio: 9/14; background: var(--page); overflow: hidden; position: relative; }
+.grid-item-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.grid-ocr-badge { position: absolute; top: 6px; right: 6px; width: 20px; height: 20px; border-radius: 50%; background: rgba(20,23,31,0.65); display: flex; align-items: center; justify-content: center; }
+.grid-ocr-badge svg { width: 10px; height: 10px; stroke: white; }
+.grid-item-body { padding: 9px 11px 11px; }
+.grid-item-cat { font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; cursor: pointer; display: inline-block; }
+.grid-item-cat:active { opacity: 0.6; }
+.grid-item-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.mini-tag { font-size: 10px; padding: 2px 7px; background: var(--tag-bg); color: var(--ink-soft); border-radius: 10px; }
+.grid-item-date { font-size: 10px; color: var(--ink-faint); margin-top: 5px; }
 
-  /* ---- MAIN ---- */
-  .main { padding: 16px 16px calc(96px + env(safe-area-inset-bottom)); }
+/* ── NOTES LIST ── */
+.notes-list { display: flex; flex-direction: column; gap: 10px; }
+.note-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; transition: box-shadow 0.15s; }
+.note-card:active { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.note-card-title { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500; color: var(--ink); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.note-card-title.untitled { color: var(--ink-faint); font-style: italic; }
+.note-card-preview { font-size: 13px; color: var(--ink-soft); line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 8px; }
+.note-card-meta { display: flex; align-items: center; justify-content: space-between; }
+.note-card-date { font-size: 11px; color: var(--ink-faint); }
+.note-card-cats { display: flex; gap: 4px; flex-wrap: wrap; }
+.note-cat-pill { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); }
 
-  .stats-row {
-    display: flex; gap: 8px; margin-bottom: 16px;
-  }
-  .stat-card {
-    flex: 1; background: var(--surface);
-    border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: 12px 14px;
-  }
-  .stat-num { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--ink); }
-  .stat-label { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
+/* ── NOTE EDITOR (full screen) ── */
+.note-editor { position: fixed; inset: 0; background: var(--surface); z-index: 400; display: none; flex-direction: column; }
+.note-editor.open { display: flex; }
+.note-editor-header { display: flex; align-items: center; gap: 10px; padding: calc(14px + env(safe-area-inset-top)) 16px 12px; border-bottom: 1px solid var(--line); flex-shrink: 0; }
+.editor-back { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--page); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.editor-back svg { width: 16px; height: 16px; stroke: var(--ink-soft); }
+.editor-actions { display: flex; gap: 6px; margin-left: auto; }
+.editor-action-btn { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--line); background: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+.editor-action-btn.del { color: #b14b3a; border-color: #f0d3cb; }
+.note-editor-body { flex: 1; overflow-y: auto; padding: 20px 20px calc(24px + env(safe-area-inset-bottom)); }
+.editor-title-input { width: 100%; border: none; outline: none; font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--ink); background: none; margin-bottom: 14px; resize: none; line-height: 1.3; }
+.editor-title-input::placeholder { color: var(--ink-faint); }
+.editor-body-input { width: 100%; border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--ink); background: none; resize: none; line-height: 1.7; min-height: 300px; }
+.editor-body-input::placeholder { color: var(--ink-faint); }
+.editor-cats-section { margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.editor-cats-label { font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
+.editor-cats-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.editor-cat-chip { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--surface); font-size: 12px; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+.editor-cat-chip.selected { background: var(--accent); border-color: var(--accent); color: white; }
+.autosave-hint { font-size: 11px; color: var(--ink-faint); margin-left: auto; font-style: italic; }
 
-  /* ---- GRID ---- */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-  }
-  .grid-item {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-  }
-  .grid-item-img-wrap {
-    width: 100%; aspect-ratio: 9/14;
-    background: var(--page);
-    overflow: hidden;
-    position: relative;
-  }
-  .grid-item-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .grid-item-ocr-badge {
-    position: absolute; top: 6px; right: 6px;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: rgba(20,23,31,0.65);
-    display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(2px);
-  }
-  .grid-item-ocr-badge svg { width: 11px; height: 11px; stroke: white; }
-  .grid-item-body { padding: 10px 12px 12px; }
-  .grid-item-cat {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase;
-    color: var(--accent); margin-bottom: 4px;
-  }
-  .grid-item-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-  .mini-tag {
-    font-size: 10px; padding: 2px 7px;
-    background: var(--tag-bg); color: var(--tag-text);
-    border-radius: 10px;
-  }
-  .grid-item-date { font-size: 10px; color: var(--ink-faint); margin-top: 6px; }
+/* ── CATEGORY VIEW ── */
+.cat-view { position: fixed; inset: 0; background: var(--page); z-index: 300; display: none; flex-direction: column; }
+.cat-view.open { display: flex; }
+.cat-view-header { padding: calc(14px + env(safe-area-inset-top)) 16px 12px; background: var(--page); border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; }
+.cat-view-back { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.cat-view-back svg { width: 16px; height: 16px; stroke: var(--ink-soft); }
+.cat-view-title { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; color: var(--ink); }
+.cat-view-body { flex: 1; overflow-y: auto; padding: 16px 16px calc(80px + env(safe-area-inset-bottom)); }
+.cat-section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; margin-top: 20px; }
+.cat-section-label:first-child { margin-top: 0; }
+.cat-screenshots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.cat-view-fab { position: fixed; bottom: calc(24px + env(safe-area-inset-bottom)); right: 20px; width: 52px; height: 52px; border-radius: 50%; background: var(--ink); color: white; border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(20,23,31,0.3); cursor: pointer; z-index: 310; }
+.cat-view-fab svg { width: 22px; height: 22px; stroke: white; }
 
-  /* ---- EMPTY STATE ---- */
-  .empty-state { text-align: center; padding: 56px 24px; color: var(--ink-faint); }
-  .empty-state-icon {
-    width: 56px; height: 56px; margin: 0 auto 16px;
-    border-radius: 16px; background: var(--surface); border: 1px solid var(--line);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .empty-state-icon svg { width: 26px; height: 26px; stroke: var(--ink-faint); }
-  .empty-state h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--ink-soft); margin-bottom: 8px; }
-  .empty-state p { font-size: 13px; line-height: 1.6; }
+/* ── FAB ── */
+.fab { position: fixed; bottom: calc(90px + env(safe-area-inset-bottom)); right: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--ink); border: none; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 20px rgba(20,23,31,0.3); cursor: pointer; z-index: 90; }
+.fab svg { width: 24px; height: 24px; stroke: white; }
 
-  /* ---- FAB ---- */
-  .fab {
-    position: fixed;
-    bottom: calc(90px + env(safe-area-inset-bottom));
-    right: 20px;
-    left: auto;
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: var(--ink);
-    color: white;
-    border: none;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 6px 20px rgba(20,23,31,0.3);
-    cursor: pointer;
-    z-index: 90;
-    transform: translateX(calc(50vw - 240px));
-  }
-  @media (max-width: 480px) {
-    .fab { transform: none; right: 20px; }
-  }
-  .fab svg { width: 24px; height: 24px; stroke: white; }
+/* ── BOTTOM NAV ── */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--surface); border-top: 1px solid var(--line); display: flex; padding: 8px 0 max(20px, env(safe-area-inset-bottom)); z-index: 100; }
+.nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; border: none; background: none; cursor: pointer; color: var(--ink-faint); font-size: 11px; font-weight: 500; font-family: 'Inter', sans-serif; }
+.nav-btn.active { color: var(--accent); }
+.nav-btn svg { width: 21px; height: 21px; stroke-width: 1.8; }
 
-  /* ---- BOTTOM NAV ---- */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 100%; max-width: 480px;
-    background: var(--surface);
-    border-top: 1px solid var(--line);
-    display: flex;
-    padding: 8px 0 max(20px, env(safe-area-inset-bottom));
-    z-index: 100;
-  }
-  .nav-btn {
-    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
-    padding: 6px 4px; border: none; background: none; cursor: pointer;
-    color: var(--ink-faint); font-size: 11px; font-weight: 500;
-    font-family: 'Inter', sans-serif;
-  }
-  .nav-btn.active { color: var(--accent); }
-  .nav-btn svg { width: 21px; height: 21px; stroke-width: 1.8; }
+/* ── MODALS ── */
+.modal-backdrop { position: fixed; inset: 0; background: rgba(20,23,31,0.55); z-index: 200; display: none; align-items: flex-end; }
+.modal-backdrop.open { display: flex; }
+.modal-sheet { background: var(--page); border-radius: 20px 20px 0 0; padding: 18px 18px max(36px, env(safe-area-inset-bottom)); width: 100%; max-height: 92vh; overflow-y: auto; animation: slideUp 0.25s ease-out; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; color: var(--ink); margin-bottom: 16px; }
+.modal-footer { display: flex; gap: 8px; margin-top: 18px; }
+.modal-btn { flex: 1; padding: 13px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--surface); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+.modal-btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
+.modal-btn.danger { color: #b14b3a; border-color: #f0d3cb; }
 
-  /* ---- DETAIL / UPLOAD MODAL ---- */
-  .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(20,23,31,0.55);
-    z-index: 200; display: none; align-items: flex-end;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal-sheet {
-    background: var(--page);
-    border-radius: 20px 20px 0 0;
-    padding: 18px 18px max(36px, env(safe-area-inset-bottom));
-    width: 100%; max-height: 92vh; overflow-y: auto;
-    animation: slideUp 0.25s ease-out;
-  }
-  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-  .modal-handle { width: 36px; height: 4px; background: var(--line); border-radius: 2px; margin: 0 auto 16px; }
-  .modal-title {
-    font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; color: var(--ink);
-    margin-bottom: 16px;
-  }
+/* ── DETAIL MODAL (screenshot) ── */
+.detail-img-wrap { width: 100%; border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; background: var(--ink); }
+.detail-img { width: 100%; display: block; max-height: 50vh; object-fit: contain; }
+.field-label { font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 8px; margin-top: 16px; }
+.field-label:first-of-type { margin-top: 0; }
+.cat-row, .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.cat-chip { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--line); background: var(--surface); font-size: 12px; font-weight: 500; color: var(--ink-soft); cursor: pointer; }
+.cat-chip.selected { background: var(--ink); border-color: var(--ink); color: white; }
+.tag-chip { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--accent); background: var(--accent-soft); font-size: 12px; font-weight: 500; color: var(--accent); cursor: pointer; }
+.tag-input-row { display: flex; gap: 8px; margin-top: 10px; }
+.tag-input-row input { flex: 1; padding: 9px 12px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: 'Inter', sans-serif; font-size: 13px; outline: none; background: var(--surface); }
+.tag-add-btn { padding: 9px 14px; background: var(--ink); color: white; border: none; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer; }
+.ocr-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 8px; }
+.ocr-box-label { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-faint); margin-bottom: 6px; }
+.ocr-box-label svg { width: 13px; height: 13px; stroke: #5c8a6a; }
+.ocr-text { font-size: 12px; color: var(--ink-soft); line-height: 1.5; max-height: 90px; overflow-y: auto; }
+.ocr-loading { font-size: 12px; color: var(--ink-faint); font-style: italic; display: flex; align-items: center; gap: 8px; }
+.ocr-spinner { width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-  .detail-img-wrap {
-    width: 100%; border-radius: var(--radius); overflow: hidden;
-    margin-bottom: 14px; background: var(--ink); position: relative;
-  }
-  .detail-img { width: 100%; display: block; max-height: 50vh; object-fit: contain; }
+/* ── UPLOAD ── */
+.upload-progress { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.upload-progress-thumb { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; background: var(--page); flex-shrink: 0; }
+.upload-progress-info { flex: 1; min-width: 0; }
+.upload-progress-name { font-size: 12px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.upload-progress-status { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
 
-  .field-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase;
-    color: var(--ink-faint); margin-bottom: 8px; margin-top: 16px;
-  }
-  .field-label:first-of-type { margin-top: 0; }
+/* ── SETTINGS ── */
+.settings-section { margin-bottom: 24px; }
+.settings-title { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+.data-btns { display: flex; flex-direction: column; gap: 8px; }
+.data-btn { padding: 13px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--line); background: var(--surface); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: var(--ink-soft); cursor: pointer; display: flex; align-items: center; gap: 10px; }
+.data-btn.danger { color: #b14b3a; border-color: #f0d3cb; }
+.cat-manager { display: flex; flex-direction: column; gap: 8px; }
+.cat-manager-row { display: flex; align-items: center; justify-content: space-between; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 11px 16px; }
+.cat-manager-name { font-size: 14px; font-weight: 500; color: var(--ink); }
+.cat-manager-count { font-size: 12px; color: var(--ink-faint); }
+.btn-remove { border: none; background: none; color: var(--ink-faint); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 4px; }
+.add-cat-form { display: flex; gap: 8px; margin-top: 8px; }
+.add-cat-form input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); font-family: 'Inter', sans-serif; font-size: 14px; outline: none; background: var(--surface); }
+.btn-add { padding: 10px 16px; background: var(--ink); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; }
+.info-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px; }
+.info-box p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+.info-box p + p { margin-top: 8px; font-size: 12px; color: var(--ink-faint); }
 
-  .cat-row, .tag-row { display: flex; gap: 6px; flex-wrap: wrap; }
-  .cat-chip, .tag-chip {
-    padding: 6px 12px; border-radius: 20px;
-    border: 1.5px solid var(--line); background: var(--surface);
-    font-size: 12px; font-weight: 500; color: var(--ink-soft); cursor: pointer;
-  }
-  .cat-chip.selected { background: var(--ink); border-color: var(--ink); color: white; }
-  .tag-chip.selected { background: var(--accent); border-color: var(--accent); color: white; }
+/* ── EMPTY ── */
+.empty-state { text-align: center; padding: 52px 24px; color: var(--ink-faint); }
+.empty-icon { width: 52px; height: 52px; margin: 0 auto 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; }
+.empty-icon svg { width: 24px; height: 24px; stroke: var(--ink-faint); }
+.empty-state h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; color: var(--ink-soft); margin-bottom: 8px; }
+.empty-state p { font-size: 13px; line-height: 1.6; }
 
-  .tag-input-row { display: flex; gap: 8px; margin-top: 10px; }
-  .tag-input-row input {
-    flex: 1; padding: 9px 12px; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
-    font-family: 'Inter', sans-serif; font-size: 13px; outline: none; background: var(--surface);
-  }
-  .tag-add-btn {
-    padding: 9px 14px; background: var(--ink); color: white; border: none;
-    border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; cursor: pointer;
-  }
-
-  .ocr-box {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: 12px 14px; margin-top: 8px;
-  }
-  .ocr-box-label { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-faint); margin-bottom: 6px; }
-  .ocr-box-label svg { width: 13px; height: 13px; stroke: var(--ok); }
-  .ocr-text { font-size: 12px; color: var(--ink-soft); line-height: 1.5; max-height: 90px; overflow-y: auto; }
-  .ocr-loading { font-size: 12px; color: var(--ink-faint); font-style: italic; display: flex; align-items: center; gap: 8px; }
-  .ocr-spinner {
-    width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--accent);
-    border-radius: 50%; animation: spin 0.8s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .modal-footer { display: flex; gap: 8px; margin-top: 20px; }
-  .modal-btn {
-    flex: 1; padding: 13px; border-radius: var(--radius-sm);
-    border: 1.5px solid var(--line); background: var(--surface);
-    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-    color: var(--ink-soft); cursor: pointer;
-  }
-  .modal-btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
-  .modal-btn.danger { color: #b14b3a; border-color: #f0d3cb; }
-
-  /* ---- UPLOAD QUEUE ---- */
-  .upload-progress {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: 12px 14px; margin-bottom: 10px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .upload-progress-thumb { width: 36px; height: 36px; border-radius: 6px; object-fit: cover; background: var(--page); flex-shrink: 0; }
-  .upload-progress-info { flex: 1; min-width: 0; }
-  .upload-progress-name { font-size: 12px; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .upload-progress-status { font-size: 11px; color: var(--ink-faint); margin-top: 2px; }
-
-  /* ---- TOAST ---- */
-  .toast {
-    position: fixed; bottom: calc(80px + env(safe-area-inset-bottom)); left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--ink); color: white; padding: 10px 20px; border-radius: 20px;
-    font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s;
-    pointer-events: none; z-index: 1000; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-  /* ---- SETTINGS ---- */
-  .settings-section { margin-bottom: 24px; }
-  .settings-title {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase;
-    color: var(--ink-faint); margin-bottom: 12px;
-  }
-  .data-btns { display: flex; flex-direction: column; gap: 8px; }
-  .data-btn {
-    padding: 13px 16px; border-radius: var(--radius-sm); border: 1.5px solid var(--line);
-    background: var(--surface); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-    color: var(--ink-soft); cursor: pointer; display: flex; align-items: center; gap: 10px;
-  }
-  .data-btn.danger { color: #b14b3a; border-color: #f0d3cb; }
-  .cat-manager { display: flex; flex-direction: column; gap: 8px; }
-  .cat-manager-row {
-    display: flex; align-items: center; justify-content: space-between;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
-    padding: 11px 16px;
-  }
-  .cat-manager-name { font-size: 14px; font-weight: 500; color: var(--ink); }
-  .cat-manager-count { font-size: 12px; color: var(--ink-faint); }
-  .btn-remove { border: none; background: none; color: var(--ink-faint); cursor: pointer; font-size: 18px; line-height: 1; padding: 2px 4px; }
-  .add-cat-form { display: flex; gap: 8px; margin-top: 8px; }
-  .add-cat-form input {
-    flex: 1; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm);
-    font-family: 'Inter', sans-serif; font-size: 14px; outline: none; background: var(--surface);
-  }
-  .btn-add { padding: 10px 16px; background: var(--ink); color: white; border: none; border-radius: var(--radius-sm); font-size: 14px; font-weight: 500; cursor: pointer; }
-  .info-box {
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px;
-  }
-  .info-box p { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
-  .info-box p strong { color: var(--ink); }
-  .info-box p + p { margin-top: 8px; font-size: 12px; color: var(--ink-faint); }
+/* ── TOAST ── */
+.toast { position: fixed; bottom: calc(80px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 </head>
 <body>
 
 <!-- WELCOME -->
-<div class="welcome-screen" id="welcome-screen">
-  <div class="welcome-mark">
-    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+<div class="welcome" id="welcome">
+  <div class="welcome-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+  <h1>StashBox</h1>
+  <p>Your screenshots and notes, organised and searchable — all on your device.</p>
+  <div class="welcome-features">
+    <div class="welcome-feature"><span>📸</span><div><strong>Screenshots</strong> — add from your photo library, scanned for text automatically.</div></div>
+    <div class="welcome-feature"><span>📝</span><div><strong>Notes</strong> — full-page writing space, like Apple Notes, synced to categories.</div></div>
+    <div class="welcome-feature"><span>🔍</span><div><strong>Search everything</strong> — finds text inside images, note content, and tags.</div></div>
+    <div class="welcome-feature"><span>🔒</span><div><strong>Private</strong> — nothing leaves your device.</div></div>
   </div>
-  <h1 class="welcome-title">StashBox</h1>
-  <p class="welcome-subtitle">Turn your screenshot pile into something you can actually search and find.</p>
-  <div class="welcome-feature-list">
-    <div class="welcome-feature">
-      <div class="welcome-feature-icon">🔍</div>
-      <div class="welcome-feature-text"><strong>Search by content</strong> — it reads the text inside each screenshot automatically.</div>
-    </div>
-    <div class="welcome-feature">
-      <div class="welcome-feature-icon">🏷️</div>
-      <div class="welcome-feature-text"><strong>Tag and categorise</strong> — sort ideas, recipes, products, quotes, whatever you like.</div>
-    </div>
-    <div class="welcome-feature">
-      <div class="welcome-feature-icon">🔒</div>
-      <div class="welcome-feature-text"><strong>Stays on your device</strong> — nothing is uploaded anywhere.</div>
-    </div>
-  </div>
-  <button class="welcome-btn" onclick="welcomeDismiss()">Get started</button>
+  <button class="welcome-btn" onclick="dismissWelcome()">Get started</button>
 </div>
 
 <!-- HEADER -->
-<div class="header">
+<div class="header" id="main-header">
   <div class="header-top">
     <div class="app-title">
       <div class="app-title-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
       StashBox
     </div>
     <div class="header-actions">
-      <button class="icon-btn" onclick="switchTab('settings')" title="Settings">
+      <button class="icon-btn" onclick="switchTab('settings')">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       </button>
     </div>
   </div>
-  <div class="search-bar">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="search-input" placeholder="Search text, tags, categories…" oninput="onSearchInput()">
-    <button class="search-clear" id="search-clear" onclick="clearSearch()">×</button>
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-library-btn" onclick="switchTab('library')">Screenshots</button>
+    <button class="tab-btn" id="tab-notes-btn" onclick="switchTab('notes')">Notes</button>
+    <button class="tab-btn" id="tab-settings-btn" onclick="switchTab('settings')">Settings</button>
   </div>
-  <div class="filter-bar" id="filter-bar"></div>
 </div>
 
-<!-- MAIN -->
-<div class="main" id="main-content">
+<!-- SEARCH + FILTER (library only) -->
+<div class="search-wrap" id="search-wrap">
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="search-input" placeholder="Search screenshots…" oninput="onSearchInput()">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">×</button>
+  </div>
+</div>
+<div class="filter-bar" id="filter-bar"></div>
 
-  <!-- LIBRARY TAB -->
+<!-- MAIN -->
+<div class="main">
+
+  <!-- LIBRARY -->
   <div id="tab-library">
     <div class="stats-row" id="stats-row"></div>
     <div id="grid-container"></div>
   </div>
 
-  <!-- SETTINGS TAB -->
+  <!-- NOTES -->
+  <div id="tab-notes" style="display:none">
+    <div class="notes-list" id="notes-list"></div>
+  </div>
+
+  <!-- SETTINGS -->
   <div id="tab-settings" style="display:none">
     <div class="settings-section">
       <div class="settings-title">Categories</div>
@@ -474,22 +282,20 @@
         <button class="btn-add" onclick="addCategory()">Add</button>
       </div>
     </div>
-
     <div class="settings-section">
       <div class="settings-title">Your data</div>
       <div class="data-btns">
-        <button class="data-btn" onclick="exportData()"><span>⬇️</span> Export backup (JSON)</button>
+        <button class="data-btn" onclick="exportData()"><span>⬇️</span> Export backup</button>
         <button class="data-btn" onclick="document.getElementById('import-file').click()"><span>⬆️</span> Restore from backup</button>
         <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
         <button class="data-btn danger" onclick="confirmClearAll()"><span>🗑️</span> Clear all data</button>
       </div>
     </div>
-
     <div class="settings-section">
       <div class="settings-title">About</div>
       <div class="info-box">
-        <p><strong>StashBox</strong> stores everything on this device only, including images. Nothing is uploaded anywhere.</p>
-        <p>Export regularly to keep a backup safe — image backups can be a large file.</p>
+        <p><strong>StashBox</strong> stores everything on this device only. Nothing is uploaded anywhere.</p>
+        <p>Export regularly to keep a backup. Image backups can be a large file.</p>
       </div>
     </div>
   </div>
@@ -497,7 +303,7 @@
 </div>
 
 <!-- FAB -->
-<button class="fab" onclick="openUploadModal()" title="Add screenshots">
+<button class="fab" id="main-fab" onclick="onFabTap()">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
 </button>
 
@@ -505,11 +311,50 @@
 <div class="bottom-nav">
   <button class="nav-btn active" id="nav-library" onclick="switchTab('library')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-    Library
+    Screenshots
+  </button>
+  <button class="nav-btn" id="nav-notes" onclick="switchTab('notes')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Notes
   </button>
   <button class="nav-btn" id="nav-settings" onclick="switchTab('settings')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
     Settings
+  </button>
+</div>
+
+<!-- NOTE EDITOR -->
+<div class="note-editor" id="note-editor">
+  <div class="note-editor-header">
+    <button class="editor-back" onclick="closeNoteEditor()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <span class="autosave-hint" id="autosave-hint">Autosaved</span>
+    <div class="editor-actions">
+      <button class="editor-action-btn del" onclick="deleteCurrentNote()">Delete</button>
+    </div>
+  </div>
+  <div class="note-editor-body">
+    <textarea class="editor-title-input" id="editor-title" placeholder="Title" rows="1" oninput="autoResizeTitle(); scheduleAutosave()"></textarea>
+    <textarea class="editor-body-input" id="editor-body" placeholder="Start writing…" oninput="scheduleAutosave()"></textarea>
+    <div class="editor-cats-section">
+      <div class="editor-cats-label">Link to categories</div>
+      <div class="editor-cats-row" id="editor-cats-row"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORY VIEW -->
+<div class="cat-view" id="cat-view">
+  <div class="cat-view-header">
+    <button class="cat-view-back" onclick="closeCatView()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="cat-view-title" id="cat-view-title"></div>
+  </div>
+  <div class="cat-view-body" id="cat-view-body"></div>
+  <button class="cat-view-fab" onclick="openUploadModal()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
   </button>
 </div>
 
@@ -520,33 +365,29 @@
     <div class="modal-title">Add screenshots</div>
     <input type="file" id="file-input" accept="image/*" multiple style="display:none" onchange="handleFilesSelected(event)">
     <button class="modal-btn primary" style="width:100%" onclick="document.getElementById('file-input').click()">Choose from photo library</button>
-    <p style="font-size:12px;color:var(--ink-faint);margin-top:10px;text-align:center;">You can select multiple at once. Each one gets scanned for text automatically.</p>
-    <div id="upload-queue" style="margin-top:16px;"></div>
+    <p style="font-size:12px;color:var(--ink-faint);margin-top:10px;text-align:center">Select multiple at once — each one gets scanned for text automatically.</p>
+    <div id="upload-queue" style="margin-top:14px"></div>
     <div class="modal-footer">
-      <button class="modal-btn" onclick="closeUploadModal()" id="upload-done-btn">Close</button>
+      <button class="modal-btn" onclick="closeUploadModal()">Done</button>
     </div>
   </div>
 </div>
 
-<!-- DETAIL MODAL -->
+<!-- SCREENSHOT DETAIL MODAL -->
 <div class="modal-backdrop" id="detail-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="detail-img-wrap"><img class="detail-img" id="detail-img" src="" alt=""></div>
-
     <div class="field-label">Category</div>
     <div class="cat-row" id="detail-cat-row"></div>
-
     <div class="field-label">Tags</div>
     <div class="tag-row" id="detail-tag-row"></div>
     <div class="tag-input-row">
       <input type="text" id="detail-new-tag" placeholder="Add a tag…" maxlength="24" onkeydown="if(event.key==='Enter') addDetailTag()">
       <button class="tag-add-btn" onclick="addDetailTag()">Add</button>
     </div>
-
     <div class="field-label">Text found in image</div>
     <div class="ocr-box" id="detail-ocr-box"></div>
-
     <div class="modal-footer">
       <button class="modal-btn danger" onclick="deleteDetailItem()">Delete</button>
       <button class="modal-btn primary" onclick="closeDetailModal()">Done</button>
@@ -554,75 +395,73 @@
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script>
-// ============================================================
-// INDEXEDDB DATA LAYER
-// ============================================================
+// ─────────────────────────────────────────
+// INDEXEDDB
+// ─────────────────────────────────────────
 const DB_NAME = 'stashbox_db';
-const DB_VERSION = 1;
-const STORE = 'screenshots';
+const DB_VERSION = 2;
 let db = null;
 
 function openDB() {
   return new Promise((resolve, reject) => {
     const req = indexedDB.open(DB_NAME, DB_VERSION);
-    req.onupgradeneeded = (e) => {
-      const _db = e.target.result;
-      if (!_db.objectStoreNames.contains(STORE)) {
-        const store = _db.createObjectStore(STORE, { keyPath: 'id' });
-        store.createIndex('ts', 'ts', { unique: false });
+    req.onupgradeneeded = e => {
+      const d = e.target.result;
+      if (!d.objectStoreNames.contains('screenshots')) {
+        d.createObjectStore('screenshots', { keyPath: 'id' });
+      }
+      if (!d.objectStoreNames.contains('notes')) {
+        d.createObjectStore('notes', { keyPath: 'id' });
       }
     };
-    req.onsuccess = (e) => { db = e.target.result; resolve(db); };
-    req.onerror = (e) => reject(e);
+    req.onsuccess = e => { db = e.target.result; resolve(); };
+    req.onerror = e => reject(e);
   });
 }
 
-function dbAll() {
+function dbAll(store) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readonly');
-    const store = tx.objectStore(STORE);
-    const req = store.getAll();
+    const tx = db.transaction(store, 'readonly');
+    const req = tx.objectStore(store).getAll();
     req.onsuccess = () => resolve(req.result || []);
-    req.onerror = (e) => reject(e);
+    req.onerror = e => reject(e);
   });
 }
-
-function dbPut(item) {
+function dbPut(store, item) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).put(item);
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).put(item);
     tx.oncomplete = () => resolve();
-    tx.onerror = (e) => reject(e);
+    tx.onerror = e => reject(e);
   });
 }
-
-function dbDelete(id) {
+function dbDelete(store, id) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).delete(id);
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).delete(id);
     tx.oncomplete = () => resolve();
-    tx.onerror = (e) => reject(e);
+    tx.onerror = e => reject(e);
   });
 }
-
-function dbClear() {
+function dbClear(store) {
   return new Promise((resolve, reject) => {
-    const tx = db.transaction(STORE, 'readwrite');
-    tx.objectStore(STORE).clear();
+    const tx = db.transaction(store, 'readwrite');
+    tx.objectStore(store).clear();
     tx.oncomplete = () => resolve();
-    tx.onerror = (e) => reject(e);
+    tx.onerror = e => reject(e);
   });
 }
 
-// ---- Categories stored in localStorage (small, text only) ----
+// ─────────────────────────────────────────
+// LOCALSTORAGE (categories only — small)
+// ─────────────────────────────────────────
 const CAT_KEY = 'stashbox_categories';
 const WELCOME_KEY = 'stashbox_welcomed';
-const DEFAULT_CATS = ['Ideas', 'Recipes', 'Products', 'Quotes'];
+const DEFAULT_CATS = ['Ideas', 'Recipes', 'Products', 'Quotes', 'Books', 'Gifts'];
 
 function getCategories() {
   try {
@@ -633,58 +472,74 @@ function getCategories() {
 }
 function saveCategories(cats) { localStorage.setItem(CAT_KEY, JSON.stringify(cats)); }
 
-// ============================================================
+// ─────────────────────────────────────────
 // STATE
-// ============================================================
-let items = [];
+// ─────────────────────────────────────────
+let screenshots = [];
+let notes = [];
+let currentTab = 'library';
+let activeCatView = null;
 let searchQuery = '';
 let activeFilter = 'all';
 let detailItemId = null;
 let detailCat = null;
 let detailTags = [];
+let editingNoteId = null;
+let autosaveTimer = null;
 
-// ============================================================
+// ─────────────────────────────────────────
 // WELCOME
-// ============================================================
-function welcomeDismiss() {
+// ─────────────────────────────────────────
+function dismissWelcome() {
   localStorage.setItem(WELCOME_KEY, '1');
-  document.getElementById('welcome-screen').classList.add('hidden');
+  document.getElementById('welcome').classList.add('hidden');
 }
 function initWelcome() {
-  if (localStorage.getItem(WELCOME_KEY)) {
-    document.getElementById('welcome-screen').classList.add('hidden');
-  }
+  if (localStorage.getItem(WELCOME_KEY)) document.getElementById('welcome').classList.add('hidden');
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // INIT
-// ============================================================
+// ─────────────────────────────────────────
 async function init() {
   await openDB();
-  items = await dbAll();
-  items.sort((a,b) => b.ts - a.ts);
+  screenshots = await dbAll('screenshots');
+  screenshots.sort((a,b) => b.ts - a.ts);
+  notes = await dbAll('notes');
+  notes.sort((a,b) => b.updatedAt - a.updatedAt);
   renderFilterBar();
   renderStats();
   renderGrid();
+  renderNotesList();
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // TABS
-// ============================================================
+// ─────────────────────────────────────────
 function switchTab(tab) {
-  document.getElementById('tab-library').style.display = tab === 'library' ? 'block' : 'none';
-  document.getElementById('tab-settings').style.display = tab === 'settings' ? 'block' : 'none';
-  document.getElementById('nav-library').classList.toggle('active', tab === 'library');
-  document.getElementById('nav-settings').classList.toggle('active', tab === 'settings');
-  document.querySelector('.fab').style.display = tab === 'library' ? 'flex' : 'none';
-  document.querySelector('.search-bar').style.display = tab === 'library' ? 'flex' : 'none';
+  currentTab = tab;
+  ['library','notes','settings'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === tab ? 'block' : 'none';
+    document.getElementById('tab-' + t + '-btn').classList.toggle('active', t === tab);
+    document.getElementById('nav-' + t) && document.getElementById('nav-' + t).classList.toggle('active', t === tab);
+  });
+  document.getElementById('search-wrap').style.display = tab === 'library' ? 'block' : 'none';
   document.getElementById('filter-bar').style.display = tab === 'library' ? 'flex' : 'none';
+  document.getElementById('main-fab').style.display = tab === 'settings' ? 'none' : 'flex';
   if (tab === 'settings') renderCatManager();
 }
 
-// ============================================================
-// SEARCH & FILTER
-// ============================================================
+// ─────────────────────────────────────────
+// FAB
+// ─────────────────────────────────────────
+function onFabTap() {
+  if (currentTab === 'notes') openNoteEditor(null);
+  else openUploadModal();
+}
+
+// ─────────────────────────────────────────
+// SEARCH + FILTER
+// ─────────────────────────────────────────
 function onSearchInput() {
   searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
   document.getElementById('search-clear').style.display = searchQuery ? 'block' : 'none';
@@ -696,95 +551,261 @@ function clearSearch() {
   document.getElementById('search-clear').style.display = 'none';
   renderGrid();
 }
-
 function renderFilterBar() {
   const cats = getCategories();
   const bar = document.getElementById('filter-bar');
   let html = `<button class="filter-chip ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">All</button>`;
   cats.forEach(c => {
-    html += `<button class="filter-chip ${activeFilter===c?'active':''}" onclick="setFilter('${esc(c)}')">${esc(c)}</button>`;
+    html += `<button class="filter-chip ${activeFilter===c?'active':''}" onclick="openCatView('${esc(c)}')">${esc(c)}</button>`;
   });
   bar.innerHTML = html;
 }
-function setFilter(cat) { activeFilter = cat; renderFilterBar(); renderGrid(); }
-
-function getFilteredItems() {
-  let list = items;
+function setFilter(cat) {
+  activeFilter = cat;
+  renderFilterBar();
+  renderGrid();
+}
+function getFilteredScreenshots() {
+  let list = screenshots;
   if (activeFilter !== 'all') list = list.filter(i => i.category === activeFilter);
-  if (searchQuery) {
-    list = list.filter(i => {
-      const inOcr = (i.ocrText || '').toLowerCase().includes(searchQuery);
-      const inTags = (i.tags || []).some(t => t.toLowerCase().includes(searchQuery));
-      const inCat = (i.category || '').toLowerCase().includes(searchQuery);
-      return inOcr || inTags || inCat;
-    });
-  }
+  if (searchQuery) list = list.filter(i =>
+    (i.ocrText||'').toLowerCase().includes(searchQuery) ||
+    (i.tags||[]).some(t => t.toLowerCase().includes(searchQuery)) ||
+    (i.category||'').toLowerCase().includes(searchQuery)
+  );
   return list;
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // STATS
-// ============================================================
+// ─────────────────────────────────────────
 function renderStats() {
   const el = document.getElementById('stats-row');
-  const total = items.length;
-  const scanned = items.filter(i => i.ocrStatus === 'done').length;
+  const scanned = screenshots.filter(i => i.ocrStatus === 'done').length;
   el.innerHTML = `
-    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Screenshots</div></div>
-    <div class="stat-card"><div class="stat-num">${scanned}</div><div class="stat-label">Text-searchable</div></div>
+    <div class="stat-card"><div class="stat-num">${screenshots.length}</div><div class="stat-label">Screenshots</div></div>
+    <div class="stat-card"><div class="stat-num">${notes.length}</div><div class="stat-label">Notes</div></div>
+    <div class="stat-card"><div class="stat-num">${scanned}</div><div class="stat-label">Text-scanned</div></div>
   `;
 }
 
-// ============================================================
-// GRID
-// ============================================================
+// ─────────────────────────────────────────
+// SCREENSHOT GRID
+// ─────────────────────────────────────────
 function renderGrid() {
   const el = document.getElementById('grid-container');
-  const list = getFilteredItems();
-
-  if (items.length === 0) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
-      <h3>No screenshots yet</h3>
-      <p>Tap the + button to add your first one.<br>It'll be scanned and ready to search.</p>
-    </div>`;
+  const list = getFilteredScreenshots();
+  if (screenshots.length === 0) {
+    el.innerHTML = emptyState('📸', 'No screenshots yet', 'Tap + to add your first one.<br>It\'ll be scanned and ready to search.');
     return;
   }
-
   if (list.length === 0) {
-    el.innerHTML = `<div class="empty-state">
-      <div class="empty-state-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-      <h3>No matches</h3>
-      <p>Try a different search or filter.</p>
-    </div>`;
+    el.innerHTML = emptyState('🔍', 'No matches', 'Try a different search or filter.');
     return;
   }
-
-  el.innerHTML = `<div class="grid">${list.map(i => gridItemHTML(i)).join('')}</div>`;
+  el.innerHTML = `<div class="grid">${list.map(gridItemHTML).join('')}</div>`;
 }
 
 function gridItemHTML(i) {
-  const tags = (i.tags || []).slice(0, 2);
-  const extra = (i.tags || []).length - tags.length;
+  const tags = (i.tags||[]).slice(0,2);
+  const extra = (i.tags||[]).length - tags.length;
   return `<div class="grid-item" onclick="openDetailModal('${i.id}')">
     <div class="grid-item-img-wrap">
-      <img class="grid-item-img" src="${i.thumb || i.image}" alt="">
-      ${i.ocrStatus === 'done' ? `<div class="grid-item-ocr-badge" title="Text searchable"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>` : ''}
+      <img class="grid-item-img" src="${i.thumb||i.image}" alt="">
+      ${i.ocrStatus==='done'?`<div class="grid-ocr-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>`:''}
     </div>
     <div class="grid-item-body">
-      ${i.category ? `<div class="grid-item-cat">${esc(i.category)}</div>` : ''}
-      <div class="grid-item-tags">
-        ${tags.map(t => `<span class="mini-tag">${esc(t)}</span>`).join('')}
-        ${extra > 0 ? `<span class="mini-tag">+${extra}</span>` : ''}
-      </div>
-      <div class="grid-item-date">${formatDateDisplay(i.ts)}</div>
+      ${i.category?`<div class="grid-item-cat" onclick="event.stopPropagation();openCatView('${esc(i.category)}')">${esc(i.category)}</div>`:''}
+      <div class="grid-item-tags">${tags.map(t=>`<span class="mini-tag">${esc(t)}</span>`).join('')}${extra>0?`<span class="mini-tag">+${extra}</span>`:''}</div>
+      <div class="grid-item-date">${fmtDate(i.ts)}</div>
     </div>
   </div>`;
 }
 
-// ============================================================
+// ─────────────────────────────────────────
+// NOTES LIST
+// ─────────────────────────────────────────
+function renderNotesList() {
+  const el = document.getElementById('notes-list');
+  if (notes.length === 0) {
+    el.innerHTML = emptyState('📝', 'No notes yet', 'Tap + to write your first note.');
+    return;
+  }
+  el.innerHTML = notes.map(n => {
+    const title = n.title || '';
+    const body = n.body || '';
+    const cats = n.categories || [];
+    return `<div class="note-card" onclick="openNoteEditor('${n.id}')">
+      <div class="note-card-title ${!title?'untitled':''}">${title ? esc(title) : 'Untitled note'}</div>
+      ${body ? `<div class="note-card-preview">${esc(body)}</div>` : ''}
+      <div class="note-card-meta">
+        <div class="note-card-date">${fmtDate(n.updatedAt)}</div>
+        <div class="note-card-cats">${cats.map(c=>`<span class="note-cat-pill">${esc(c)}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─────────────────────────────────────────
+// NOTE EDITOR
+// ─────────────────────────────────────────
+function openNoteEditor(id) {
+  if (id) {
+    const note = notes.find(n => n.id === id);
+    if (!note) return;
+    editingNoteId = id;
+    document.getElementById('editor-title').value = note.title || '';
+    document.getElementById('editor-body').value = note.body || '';
+    renderEditorCats(note.categories || []);
+  } else {
+    // new note
+    editingNoteId = 'new_' + Date.now();
+    document.getElementById('editor-title').value = '';
+    document.getElementById('editor-body').value = '';
+    renderEditorCats([]);
+  }
+  autoResizeTitle();
+  document.getElementById('autosave-hint').textContent = '';
+  document.getElementById('note-editor').classList.add('open');
+  setTimeout(() => {
+    const t = document.getElementById('editor-title');
+    t.focus();
+  }, 300);
+}
+
+function closeNoteEditor() {
+  saveCurrentNote(true); // final save
+  document.getElementById('note-editor').classList.remove('open');
+  editingNoteId = null;
+  renderNotesList();
+  renderStats();
+  // if category view is open, refresh it too
+  if (activeCatView) renderCatViewBody();
+}
+
+function renderEditorCats(selected) {
+  const cats = getCategories();
+  const el = document.getElementById('editor-cats-row');
+  el.innerHTML = cats.map(c =>
+    `<button class="editor-cat-chip ${selected.includes(c)?'selected':''}" onclick="toggleEditorCat(this,'${esc(c)}')">${esc(c)}</button>`
+  ).join('');
+}
+
+function toggleEditorCat(btn, cat) {
+  btn.classList.toggle('selected');
+  scheduleAutosave();
+}
+
+function getEditorCats() {
+  return Array.from(document.querySelectorAll('#editor-cats-row .editor-cat-chip.selected')).map(b => b.textContent);
+}
+
+function scheduleAutosave() {
+  clearTimeout(autosaveTimer);
+  document.getElementById('autosave-hint').textContent = 'Saving…';
+  autosaveTimer = setTimeout(() => saveCurrentNote(false), 800);
+}
+
+async function saveCurrentNote(silent) {
+  if (!editingNoteId) return;
+  const title = document.getElementById('editor-title').value;
+  const body = document.getElementById('editor-body').value;
+  const cats = getEditorCats();
+  if (!title && !body) return; // don't save empty notes
+
+  const existing = notes.find(n => n.id === editingNoteId);
+  const note = {
+    id: editingNoteId,
+    title: title,
+    body: body,
+    categories: cats,
+    createdAt: existing ? existing.createdAt : Date.now(),
+    updatedAt: Date.now()
+  };
+  await dbPut('notes', note);
+  if (existing) {
+    const idx = notes.findIndex(n => n.id === editingNoteId);
+    notes[idx] = note;
+  } else {
+    notes.unshift(note);
+  }
+  if (!silent) document.getElementById('autosave-hint').textContent = 'Saved ✓';
+}
+
+async function deleteCurrentNote() {
+  if (!editingNoteId) return;
+  if (!confirm('Delete this note?')) return;
+  const id = editingNoteId;
+  await dbDelete('notes', id);
+  notes = notes.filter(n => n.id !== id);
+  document.getElementById('note-editor').classList.remove('open');
+  editingNoteId = null;
+  renderNotesList();
+  renderStats();
+  if (activeCatView) renderCatViewBody();
+}
+
+function autoResizeTitle() {
+  const el = document.getElementById('editor-title');
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+// ─────────────────────────────────────────
+// CATEGORY VIEW
+// ─────────────────────────────────────────
+function openCatView(cat) {
+  activeCatView = cat;
+  document.getElementById('cat-view-title').textContent = cat;
+  renderCatViewBody();
+  document.getElementById('cat-view').classList.add('open');
+}
+
+function closeCatView() {
+  document.getElementById('cat-view').classList.remove('open');
+  activeCatView = null;
+  renderFilterBar();
+  renderGrid();
+}
+
+function renderCatViewBody() {
+  if (!activeCatView) return;
+  const catScreenshots = screenshots.filter(i => i.category === activeCatView);
+  const catNotes = notes.filter(n => (n.categories||[]).includes(activeCatView));
+  const el = document.getElementById('cat-view-body');
+
+  let html = '';
+
+  // Notes section
+  html += `<div class="cat-section-label">Notes</div>`;
+  if (catNotes.length === 0) {
+    html += `<p style="font-size:13px;color:var(--ink-faint);font-style:italic;margin-bottom:20px">No notes linked to ${esc(activeCatView)} yet. Open a note and link it here.</p>`;
+  } else {
+    html += `<div class="notes-list" style="margin-bottom:24px">${catNotes.map(n => {
+      const title = n.title || '';
+      const body = n.body || '';
+      return `<div class="note-card" onclick="openNoteEditor('${n.id}')">
+        <div class="note-card-title ${!title?'untitled':''}">${title ? esc(title) : 'Untitled note'}</div>
+        ${body ? `<div class="note-card-preview">${esc(body)}</div>` : ''}
+        <div class="note-card-meta"><div class="note-card-date">${fmtDate(n.updatedAt)}</div></div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  // Screenshots section
+  html += `<div class="cat-section-label">Screenshots</div>`;
+  if (catScreenshots.length === 0) {
+    html += `<p style="font-size:13px;color:var(--ink-faint);font-style:italic">No screenshots in this category yet. Tap + to add one.</p>`;
+  } else {
+    html += `<div class="cat-screenshots-grid">${catScreenshots.map(gridItemHTML).join('')}</div>`;
+  }
+
+  el.innerHTML = html;
+}
+
+// ─────────────────────────────────────────
 // UPLOAD
-// ============================================================
+// ─────────────────────────────────────────
 function openUploadModal() {
   document.getElementById('upload-queue').innerHTML = '';
   document.getElementById('upload-modal').classList.add('open');
@@ -793,67 +814,68 @@ function closeUploadModal() {
   document.getElementById('upload-modal').classList.remove('open');
   renderStats();
   renderGrid();
+  if (activeCatView) renderCatViewBody();
 }
 
 async function handleFilesSelected(event) {
   const files = Array.from(event.target.files || []);
-  if (files.length === 0) return;
+  if (!files.length) return;
   const queueEl = document.getElementById('upload-queue');
 
   for (const file of files) {
     const id = 'ss_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-    const rowId = 'row_' + id;
-
     const dataUrl = await fileToDataUrl(file);
     const thumb = await makeThumbnail(dataUrl, 400);
 
     const row = document.createElement('div');
     row.className = 'upload-progress';
-    row.id = rowId;
     row.innerHTML = `
       <img class="upload-progress-thumb" src="${thumb}">
       <div class="upload-progress-info">
         <div class="upload-progress-name">${esc(file.name || 'Screenshot')}</div>
-        <div class="upload-progress-status" id="status_${id}">
-          <span class="ocr-loading"><span class="ocr-spinner"></span> Scanning for text…</span>
-        </div>
-      </div>
-    `;
+        <div class="upload-progress-status" id="status_${id}"><span class="ocr-loading"><span class="ocr-spinner"></span> Scanning…</span></div>
+      </div>`;
     queueEl.appendChild(row);
 
-    const item = {
-      id: id,
-      image: dataUrl,
-      thumb: thumb,
-      category: null,
-      tags: [],
-      ocrText: '',
-      ocrStatus: 'pending',
-      ts: Date.now()
-    };
-    items.unshift(item);
-    await dbPut(item);
-
-    // Run OCR async, don't block the queue
+    const item = { id, image: dataUrl, thumb, category: activeCatView||null, tags: [], ocrText: '', ocrStatus: 'pending', ts: Date.now() };
+    screenshots.unshift(item);
+    await dbPut('screenshots', item);
     runOCR(item, id);
   }
-
   event.target.value = '';
   renderStats();
   renderGrid();
 }
 
-function fileToDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = e => resolve(e.target.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+async function runOCR(item, displayId) {
+  const statusEl = document.getElementById('status_' + displayId);
+  try {
+    const result = await Tesseract.recognize(item.image, 'eng');
+    const text = (result.data && result.data.text || '').trim();
+    item.ocrText = text;
+    item.ocrStatus = 'done';
+    await dbPut('screenshots', item);
+    if (statusEl) statusEl.innerHTML = text
+      ? `<span style="color:#5c8a6a">✓ Found ${text.split(/\s+/).filter(Boolean).length} words</span>`
+      : `<span style="color:var(--ink-faint)">✓ Scanned — no text found</span>`;
+  } catch(e) {
+    item.ocrStatus = 'failed';
+    await dbPut('screenshots', item);
+    if (statusEl) statusEl.innerHTML = `<span style="color:var(--ink-faint)">Scan failed</span>`;
+  }
+  renderStats();
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
 function makeThumbnail(dataUrl, maxDim) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
       let w = img.width, h = img.height;
@@ -869,142 +891,95 @@ function makeThumbnail(dataUrl, maxDim) {
   });
 }
 
-async function runOCR(item, displayId) {
-  const statusEl = document.getElementById('status_' + displayId);
-  try {
-    const result = await Tesseract.recognize(item.image, 'eng');
-    const text = (result.data && result.data.text || '').trim();
-    item.ocrText = text;
-    item.ocrStatus = 'done';
-    await dbPut(item);
-    if (statusEl) statusEl.innerHTML = text
-      ? `<span style="color:var(--ok)">✓ Found ${text.split(/\s+/).filter(Boolean).length} words</span>`
-      : `<span style="color:var(--ink-faint)">✓ Scanned — no text found</span>`;
-  } catch (err) {
-    item.ocrStatus = 'failed';
-    await dbPut(item);
-    if (statusEl) statusEl.innerHTML = `<span style="color:var(--ink-faint)">Scan failed — saved without text search</span>`;
-  }
-  renderStats();
-  // Refresh grid only if not mid-upload-modal to avoid jank
-  if (!document.getElementById('upload-modal').classList.contains('open')) {
-    renderGrid();
-  }
-}
-
-// ============================================================
-// DETAIL MODAL
-// ============================================================
+// ─────────────────────────────────────────
+// SCREENSHOT DETAIL
+// ─────────────────────────────────────────
 function openDetailModal(id) {
-  const item = items.find(i => i.id === id);
+  const item = screenshots.find(i => i.id === id);
   if (!item) return;
   detailItemId = id;
   detailCat = item.category || null;
-  detailTags = [...(item.tags || [])];
-
+  detailTags = [...(item.tags||[])];
   document.getElementById('detail-img').src = item.image;
   renderDetailCatRow();
   renderDetailTagRow();
-  renderDetailOcrBox(item);
-
+  renderDetailOcr(item);
   document.getElementById('detail-modal').classList.add('open');
 }
-
 function closeDetailModal() {
-  const item = items.find(i => i.id === detailItemId);
-  if (item) {
-    item.category = detailCat;
-    item.tags = detailTags;
-    dbPut(item);
-  }
+  const item = screenshots.find(i => i.id === detailItemId);
+  if (item) { item.category = detailCat; item.tags = detailTags; dbPut('screenshots', item); }
   document.getElementById('detail-modal').classList.remove('open');
   detailItemId = null;
   renderFilterBar();
   renderGrid();
+  if (activeCatView) renderCatViewBody();
 }
-
 function renderDetailCatRow() {
   const cats = getCategories();
-  const el = document.getElementById('detail-cat-row');
-  el.innerHTML = cats.map(c =>
-    `<button class="cat-chip ${detailCat === c ? 'selected' : ''}" onclick="selectDetailCat('${esc(c)}')">${esc(c)}</button>`
+  document.getElementById('detail-cat-row').innerHTML = cats.map(c =>
+    `<button class="cat-chip ${detailCat===c?'selected':''}" onclick="selectDetailCat('${esc(c)}')">${esc(c)}</button>`
   ).join('');
 }
-function selectDetailCat(cat) {
-  detailCat = (detailCat === cat) ? null : cat;
-  renderDetailCatRow();
-}
-
+function selectDetailCat(cat) { detailCat = detailCat===cat?null:cat; renderDetailCatRow(); }
 function renderDetailTagRow() {
   const el = document.getElementById('detail-tag-row');
-  if (detailTags.length === 0) {
-    el.innerHTML = `<span style="font-size:12px;color:var(--ink-faint);font-style:italic">No tags yet</span>`;
-    return;
-  }
-  el.innerHTML = detailTags.map(t =>
-    `<button class="tag-chip selected" onclick="removeDetailTag('${esc(t)}')">${esc(t)} ×</button>`
-  ).join('');
+  el.innerHTML = detailTags.length
+    ? detailTags.map(t => `<button class="tag-chip" onclick="removeDetailTag('${esc(t)}')">${esc(t)} ×</button>`).join('')
+    : `<span style="font-size:12px;color:var(--ink-faint);font-style:italic">No tags yet</span>`;
 }
 function addDetailTag() {
   const input = document.getElementById('detail-new-tag');
   const val = input.value.trim();
-  if (!val) return;
-  if (!detailTags.includes(val)) detailTags.push(val);
+  if (!val || detailTags.includes(val)) return;
+  detailTags.push(val);
   input.value = '';
   renderDetailTagRow();
 }
-function removeDetailTag(tag) {
-  detailTags = detailTags.filter(t => t !== tag);
-  renderDetailTagRow();
-}
-
-function renderDetailOcrBox(item) {
+function removeDetailTag(tag) { detailTags = detailTags.filter(t => t!==tag); renderDetailTagRow(); }
+function renderDetailOcr(item) {
   const el = document.getElementById('detail-ocr-box');
-  if (item.ocrStatus === 'done') {
-    el.innerHTML = `
-      <div class="ocr-box-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Searchable text detected</div>
-      <div class="ocr-text">${item.ocrText ? esc(item.ocrText) : 'No readable text found in this image.'}</div>
-    `;
-  } else if (item.ocrStatus === 'failed') {
-    el.innerHTML = `<div class="ocr-text" style="color:var(--ink-faint)">Text scan failed for this image. You can still search it by category and tags.</div>`;
+  if (item.ocrStatus==='done') {
+    el.innerHTML = `<div class="ocr-box-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Searchable text</div>
+      <div class="ocr-text">${item.ocrText ? esc(item.ocrText) : 'No readable text found.'}</div>`;
+  } else if (item.ocrStatus==='failed') {
+    el.innerHTML = `<div class="ocr-text" style="color:var(--ink-faint)">Text scan failed. Searchable by category and tags.</div>`;
   } else {
     el.innerHTML = `<div class="ocr-loading"><span class="ocr-spinner"></span> Scanning…</div>`;
   }
 }
-
 function deleteDetailItem() {
-  if (!confirm('Delete this screenshot? This cannot be undone.')) return;
+  if (!confirm('Delete this screenshot?')) return;
   const id = detailItemId;
-  dbDelete(id);
-  items = items.filter(i => i.id !== id);
+  dbDelete('screenshots', id);
+  screenshots = screenshots.filter(i => i.id !== id);
   document.getElementById('detail-modal').classList.remove('open');
   detailItemId = null;
-  renderFilterBar();
   renderStats();
+  renderFilterBar();
   renderGrid();
+  if (activeCatView) renderCatViewBody();
   showToast('Deleted');
 }
 
-// Close modals on backdrop tap
-document.getElementById('detail-modal').addEventListener('click', function(e) { if (e.target === this) closeDetailModal(); });
-document.getElementById('upload-modal').addEventListener('click', function(e) { if (e.target === this) closeUploadModal(); });
+// close modals on backdrop tap
+document.getElementById('detail-modal').addEventListener('click', e => { if (e.target===document.getElementById('detail-modal')) closeDetailModal(); });
+document.getElementById('upload-modal').addEventListener('click', e => { if (e.target===document.getElementById('upload-modal')) closeUploadModal(); });
 
-// ============================================================
+// ─────────────────────────────────────────
 // CATEGORIES (settings)
-// ============================================================
+// ─────────────────────────────────────────
 function renderCatManager() {
   const cats = getCategories();
   const el = document.getElementById('cat-manager');
-  if (cats.length === 0) {
-    el.innerHTML = `<p style="font-size:13px;color:var(--ink-faint);font-style:italic;padding:4px 0">No categories yet.</p>`;
-    return;
-  }
+  if (!cats.length) { el.innerHTML = `<p style="font-size:13px;color:var(--ink-faint);font-style:italic;padding:4px 0">No categories yet.</p>`; return; }
   el.innerHTML = cats.map(c => {
-    const count = items.filter(i => i.category === c).length;
+    const ssCount = screenshots.filter(i => i.category===c).length;
+    const notesCount = notes.filter(n => (n.categories||[]).includes(c)).length;
     return `<div class="cat-manager-row">
       <div>
         <div class="cat-manager-name">${esc(c)}</div>
-        <div class="cat-manager-count">${count} screenshot${count !== 1 ? 's' : ''}</div>
+        <div class="cat-manager-count">${ssCount} screenshot${ssCount!==1?'s':''} · ${notesCount} note${notesCount!==1?'s':''}</div>
       </div>
       <button class="btn-remove" onclick="removeCategory('${esc(c)}')">×</button>
     </div>`;
@@ -1024,21 +999,22 @@ function addCategory() {
   showToast(`${name} added`);
 }
 function removeCategory(name) {
-  if (!confirm(`Remove "${name}"? Screenshots in this category will become uncategorised.`)) return;
+  if (!confirm(`Remove "${name}"? Screenshots and notes will lose this category tag.`)) return;
   let cats = getCategories();
-  cats = cats.filter(c => c !== name);
+  cats = cats.filter(c => c!==name);
   saveCategories(cats);
   renderCatManager();
   renderFilterBar();
-  if (activeFilter === name) { activeFilter = 'all'; renderGrid(); }
+  if (activeFilter===name) { activeFilter='all'; renderGrid(); }
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // EXPORT / IMPORT
-// ============================================================
+// ─────────────────────────────────────────
 async function exportData() {
-  const allItems = await dbAll();
-  const payload = { categories: getCategories(), items: allItems };
+  const allScreenshots = await dbAll('screenshots');
+  const allNotes = await dbAll('notes');
+  const payload = { version: 2, categories: getCategories(), screenshots: allScreenshots, notes: allNotes };
   const blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -1048,61 +1024,59 @@ async function exportData() {
   URL.revokeObjectURL(url);
   showToast('Backup downloaded ✓');
 }
-
 function importData(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = async function(e) {
+  reader.onload = async e => {
     try {
       const imported = JSON.parse(e.target.result);
-      if (!imported.items) throw new Error('Invalid format');
-      if (!confirm(`Import ${imported.items.length} screenshots? This will replace your current data.`)) return;
-      await dbClear();
-      for (const it of imported.items) await dbPut(it);
+      const ssCount = (imported.screenshots||imported.items||[]).length;
+      const nCount = (imported.notes||[]).length;
+      if (!confirm(`Import ${ssCount} screenshots and ${nCount} notes? This replaces current data.`)) return;
+      await dbClear('screenshots');
+      await dbClear('notes');
+      for (const s of (imported.screenshots||imported.items||[])) await dbPut('screenshots', s);
+      for (const n of (imported.notes||[])) await dbPut('notes', n);
       if (imported.categories) saveCategories(imported.categories);
-      items = await dbAll();
-      items.sort((a,b) => b.ts - a.ts);
-      renderFilterBar();
-      renderStats();
-      renderGrid();
-      showToast(`Imported ${imported.items.length} screenshots ✓`);
+      screenshots = await dbAll('screenshots'); screenshots.sort((a,b)=>b.ts-a.ts);
+      notes = await dbAll('notes'); notes.sort((a,b)=>b.updatedAt-a.updatedAt);
+      renderFilterBar(); renderStats(); renderGrid(); renderNotesList();
+      showToast(`Imported ✓`);
     } catch(err) { showToast('Import failed — invalid file'); }
   };
   reader.readAsText(file);
   event.target.value = '';
 }
-
 async function confirmClearAll() {
-  if (!confirm('Delete ALL screenshots and categories? This cannot be undone.')) return;
-  if (!confirm('Are you sure? Everything will be gone.')) return;
-  await dbClear();
+  if (!confirm('Delete ALL screenshots, notes and categories? Cannot be undone.')) return;
+  if (!confirm('Are you sure?')) return;
+  await dbClear('screenshots');
+  await dbClear('notes');
   localStorage.removeItem(CAT_KEY);
-  items = [];
-  renderFilterBar();
-  renderStats();
-  renderGrid();
-  renderCatManager();
+  screenshots = []; notes = [];
+  renderFilterBar(); renderStats(); renderGrid(); renderNotesList(); renderCatManager();
   showToast('All data cleared');
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // HELPERS
-// ============================================================
-function todayStr() { return new Date().toISOString().slice(0, 10); }
-function formatDateDisplay(ts) {
+// ─────────────────────────────────────────
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function fmtDate(ts) {
   const d = new Date(ts);
   const today = new Date();
-  const isToday = d.toDateString() === today.toDateString();
-  const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
-  const isYesterday = d.toDateString() === yesterday.toDateString();
-  if (isToday) return 'Today';
-  if (isYesterday) return 'Yesterday';
-  return d.toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
+  const yest = new Date(today); yest.setDate(today.getDate()-1);
+  if (d.toDateString()===today.toDateString()) return 'Today';
+  if (d.toDateString()===yest.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString('en-AU', { day:'numeric', month:'short', year:'numeric' });
 }
 function esc(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function emptyState(icon, title, body) {
+  return `<div class="empty-state"><div class="empty-icon"><span style="font-size:22px">${icon}</span></div><h3>${title}</h3><p>${body}</p></div>`;
 }
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -1111,9 +1085,9 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// ============================================================
+// ─────────────────────────────────────────
 // START
-// ============================================================
+// ─────────────────────────────────────────
 initWelcome();
 init();
 </script>
